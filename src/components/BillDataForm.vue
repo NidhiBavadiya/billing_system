@@ -3,7 +3,7 @@
 <template>
   <b-card>
     <h2 class="mb-3">Single Product Detail</h2>
-    <b-form @submit.prevent  ref="clearform">
+    <b-form @submit.prevent ref="clearform">
       <b-row>
         <!-- Product Name -->
         <b-col cols="12">
@@ -135,32 +135,34 @@ export default {
       Name: "",
       Price: "",
       Total: "",
-      Quentity: "",
-    
+      Quentity:null,
+
       data: data,
     };
   },
 
   watch: {
     Quentity() {
-      if (this.Name) {
+      if (this.Name) {       
       }
       let total = this.Name.Price * this.Name.Quentity;
       this.Total = total;
+      
     },
     Name() {
-      this.Quentity = 1;
+      this.Quentity()
     },
   },
   methods: {
     increment() {
       this.Name.Quentity++;
       let Qun = this.Name.Quentity;
-      this.Quentity = Qun;   
+      this.Quentity = Qun;
     },
-    decrement() {     
+    decrement() {
       if (this.Name.Quentity <= 0) {
         this.Name.Quentity = 0;
+        // this.data.item.splice(this.data.items); 
       } else {
         this.Name.Quentity -= 1;
       }
@@ -172,13 +174,19 @@ export default {
       let billValue = {
         Name: this.Name.Name,
         Price: this.Name.Price,
-        Total:this.Total ,
-        Quentity: this.Quentity ,
-        id:this.Name.id
+        Total: this.Total,
+        Quentity: this.Quentity,
+        id: this.Name.id,
       };
-      this.$emit('adddata',billValue )
-      this.$refs.clearform.reset(); 
-
+      this.$emit("adddata", billValue);
+      this.$refs.clearform.reset();
+      billValue = {
+        Name: null,
+        Price: null,
+        Total: null,
+        Quentity: null,
+        id: null,
+      };
     },
   },
 };

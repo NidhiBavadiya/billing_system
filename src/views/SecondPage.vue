@@ -1,21 +1,69 @@
 <template>
-  <b-card title="Create Awesome 🙌">
-    <b-card-text>This is your second page.</b-card-text>
-    <b-card-text>Chocolate sesame snaps pie carrot cake pastry pie lollipop muffin. Carrot cake dragée chupa chups jujubes. Macaroon liquorice cookie wafer tart marzipan bonbon. Gingerbread jelly-o dragée chocolate.</b-card-text>
-  </b-card>
+  <div>
+    <b-card class="w-50">
+      <!-- product & price -->
+      <b-row class="justify-content-between">
+        <b-col cols="12" md="6" class="mt-2">
+          <h4>Product</h4>
+          <p>{{productBill[0].product}}</p>
+        </b-col>
+        <b-col cols="12" md="6" class="mt-2">
+          <h4>Price</h4>
+          <p>{{productBill[0].price }}</p>
+        </b-col>
+      </b-row>
+      <!-- Total -->
+      <b-row>
+        <b-col cols="12" md="12" class="mt-1">
+          <div class="d-flex justify-content-between">
+            <h4>Total</h4>
+            <p>{{ productBill[0].Total }}</p>
+          </div>
+        </b-col>
+      </b-row>
+      <!-- Discount price -->
+      <b-row>
+        <b-col cols="12" md="12" class="mt-1">
+          <div class="d-flex justify-content-between">
+            <h4>Discount</h4>
+            <p>{{ productBill[0].Discount }}</p>
+          </div>
+        </b-col>
+      </b-row>
+      <!-- pay Price -->
+      <b-row>
+        <b-col cols="12" md="12" class="mt-1">
+          <div class="d-flex justify-content-between">
+            <h4>pay</h4>
+            <p>{{ productBill[0].pay }}</p>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
 </template>
 
 <script>
-import { BCard, BCardText } from 'bootstrap-vue'
-
+import { BCard, BRow, BCol } from "bootstrap-vue";
+import data from "../assets/data.json";
 export default {
   components: {
     BCard,
-    BCardText,
+    BRow,
+    BCol,
   },
-}
+  data() {
+    return {
+      data: data,
+      productBill: "",
+    };
+  },
+  //data receive from product list component  
+  mounted() {
+    this.productBill = this.data.billSlip;
+  },
+};
 </script>
 
 <style>
-
 </style>

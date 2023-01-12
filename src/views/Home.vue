@@ -2,20 +2,22 @@
   <div>
     <b-row>
       <b-col cols="12" md="4">
-        <bill-data-form :items="items"></bill-data-form>
+        <bill-data-form @adddata="bill"></bill-data-form>
       </b-col>
       <b-col cols="12" md="8">
-        <product-list-table :items="items"></product-list-table>
+        <product-list-table
+          :fields="fields"
+          :billdata="billdata"
+        ></product-list-table>
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-import { BRow,BCol } from "bootstrap-vue";
+import { BRow, BCol } from "bootstrap-vue";
 import billDataForm from "../components/BillDataForm.vue";
 import productListTable from "../components/ProductListTable.vue";
-
 export default {
   components: {
     BRow,
@@ -25,46 +27,37 @@ export default {
   },
   data() {
     return {
-      items: [
+      billdata: [],
+      fields: [
         {
-          Name: "Suger",
-          Price: "40",
-          Quentity: "10",
-          Total: "",
-          Action:""
+          value:"Name",
+          key:"Name"
         },
         {
-          Name: "Tea",
-          Price: "80",
-          Quentity: "1",
-          Total: "",
-          Action:""
+          value:"Price",
+          key:"Price"
         },
         {
-          Name: "solt",
-          Price: "10",
-          Quentity: "3",
-          Total: "",
-          Action:""
+          value:"Quentity",
+          key:"Quentity"
         },
         {
-          Name: "oli",
-          Price: "150",
-          Quentity: "0",
-          Total: "",
-          Action:""
+          value:"Total",
+          key:"Total"
         },
         {
-          Name: "coffee",
-          Price: "100",
-          Quentity: "2",
-          Total: "",
-          Action:""
-        }
-        
-       
+          value:"Action",
+          key:"action"
+        },
       ],
-    }
+    };
+  },
+  methods: {
+    bill(value) {
+      console.log(value);
+      this.billdata.push(value)
+      console.log("billData", this.billdata);
+    },
   },
 };
 </script>

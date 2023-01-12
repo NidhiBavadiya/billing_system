@@ -2,17 +2,17 @@
  
 <template>
   <b-card>
-    <h2 class="mb-3">Simgle Product Detail</h2>
-    <b-form @submit.prevent>
+    <h2 class="mb-3">Single Product Detail</h2>
+    <b-form @submit.prevent  ref="clearform">
       <b-row>
         <!-- Product Name -->
         <b-col cols="12">
           <b-form-group label="Product Name">
             <v-select
-              v-model="selected"
+              v-model="Name"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="Name"
-              :options="items"
+              :options="data.items"
             />
           </b-form-group>
         </b-col>
@@ -20,8 +20,13 @@
       <b-row>
         <!-- Price-->
         <b-col cols="12" md="6">
-          <b-form-group label="Price" label-for="v-price">
-            <b-form-input id="v-price" type="price" label="price" />
+          <b-form-group label="Price" label-for="v-Price">
+            <b-form-input
+              id="v-Price"
+              type="number"
+              label="Price"
+              v-model="Name.Price"
+            />
           </b-form-group>
         </b-col>
 
@@ -33,24 +38,26 @@
                 <b-button
                   variant="outline-primary"
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                  @click="increment"
+                  @click="decrement"
+                  class="p10px"
                 >
-                  +
+                  -
                 </b-button>
               </b-input-group-append>
               <b-form-input
+                class="p-0 text-center"
                 id="v-quentity"
-                type="quentity"
-                v-model="Quality"
+                v-model="Quentity"
               ></b-form-input>
 
               <b-input-group-append>
                 <b-button
                   variant="outline-primary"
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                  @click="decrement"
+                  @click="increment"
+                  class="p10px"
                 >
-                  -
+                  +
                 </b-button>
               </b-input-group-append>
             </b-input-group>
@@ -61,11 +68,16 @@
         <!-- Total -->
         <b-col cols="12">
           <b-form-group label="Total" label-for="v-total">
-            <b-form-input id="v-total" type="total" />
+            <b-form-input
+              id="v-total"
+              type="number"
+              placeholder="Total"
+              v-model="Total"
+              disabled
+            ></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
-
       <!--Add -->
       <b-row>
         <b-col cols="12" class="mt-3">
@@ -74,6 +86,7 @@
             type="submit"
             variant="primary"
             class="mr-1"
+            @click="AddData()"
           >
             Add
           </b-button>
@@ -83,7 +96,7 @@
   </b-card>
 </template>
   
-  <script>
+<script>
 import {
   BRow,
   BCol,
@@ -98,7 +111,7 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
-
+import data from "../assets/data.json";
 export default {
   components: {
     BRow,
@@ -117,33 +130,63 @@ export default {
     Ripple,
   },
 
-  props: {
-    items: Array,
-  },
   data() {
     return {
-      selected: null,
       Name: "",
       Price: "",
-      // Quality:'',
       Total: "",
-      Quality: 0,
+      Quentity: "",
+    
+      data: data,
     };
+  },
+
+  watch: {
+    Quentity() {
+      if (this.Name) {
+      }
+      let total = this.Name.Price * this.Name.Quentity;
+      this.Total = total;
+    },
+    Name() {
+      this.Quentity = 1;
+    },
   },
   methods: {
     increment() {
-      this.Quality += 1;
+      this.Name.Quentity++;
+      let Qun = this.Name.Quentity;
+      this.Quentity = Qun;   
     },
-    decrement() {
-      if (this.Quality <= 0) {
-        this.Quality = 0;
+    decrement() {     
+      if (this.Name.Quentity <= 0) {
+        this.Name.Quentity = 0;
       } else {
-        this.Quality -= 1;
+        this.Name.Quentity -= 1;
       }
+      let Qun = this.Name.Quentity;
+      this.Quentity = Qun;
+    },
+
+    AddData() {
+      let billValue = {
+        Name: this.Name.Name,
+        Price: this.Name.Price,
+        Total:this.Total ,
+        Quentity: this.Quentity ,
+        id:this.Name.id
+      };
+      this.$emit('adddata',billValue )
+      this.$refs.clearform.reset(); 
+
     },
   },
 };
 </script>
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
+
+.p10px {
+  padding: 10px;
+}
 </style>

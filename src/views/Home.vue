@@ -52,6 +52,18 @@ export default {
       ],
     };
   },
+  mounted(){
+    data.items.forEach(item => {
+        if(item.id === billValue.id){
+          console.log("Item already exist")
+        }
+        else{
+          this.$emit("adddata", billValue); 
+        }
+        console.log("item...",item.id);
+        console.log("....",billValue.id);
+      });
+  },
   methods: {
     bill(value) {
       console.log(value);

@@ -14,11 +14,14 @@
               label="Name"
               :options="data.items"
               placeholder="Select Product"
-            />
+            >
+              {{ changeTotal }}</v-select
+            >
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
+        {{ data.items.id }}
         <!-- Price-->
         <b-col cols="12" md="6">
           <b-form-group label="Price" label-for="v-Price">
@@ -27,6 +30,7 @@
               type="number"
               label="Price"
               v-model="Name.Price"
+              placeholder="Price"
             />
           </b-form-group>
         </b-col>
@@ -113,6 +117,8 @@ import {
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import data from "../assets/data.json";
+import { forEach } from 'postcss-rtl/lib/affected-props';
+// import { resolveNavDataRouteName } from "@/@core/layouts/utils";
 export default {
   components: {
     BRow,
@@ -141,34 +147,31 @@ export default {
       data: data,
     };
   },
-
- computed:{
- 
- },
-  watch: {
-    Price(val){
-      if(val){
-      this.Price = val.Name.Price
-      }
-      this.Total = this.Price
-
+  // change & display total value 
+  computed: {
+    changeTotal() {
+      console.log("price", this.Name.Price);
+      console.log("Quentity", this.Name.Quentity);
+      this.Total = this.Name.Price * this.Name.Quentity;
+      console.log("total...", this.Total);
     },
-    Quentity(val) {
-    if(val){
-      this.Quentity = val.Quentity
-    }
+  },
+// watcher for watch Qentity value
+  watch: {
+    Quentity() {
       let total = this.Name.Price * this.Name.Quentity;
       this.Total = total;
     },
-    
   },
 
   methods: {
+    //inc Quentity
     increment() {
       this.Name.Quentity++;
       let Qun = this.Name.Quentity;
       this.Quentity = Qun;
     },
+    //dec Quentity
     decrement() {
       if (this.Name.Quentity <= 0) {
         this.Name.Quentity = 0;
@@ -178,7 +181,7 @@ export default {
       let Qun = this.Name.Quentity;
       this.Quentity = Qun;
     },
-
+//Add data button
     AddData() {
       let billValue = {
         Name: this.Name.Name,
@@ -196,6 +199,7 @@ export default {
         Quentity: null,
         id: null,
       };
+      console.log("shdbjshdf",billValue);
     },
   },
 };

@@ -4,10 +4,8 @@
       responsive="sm"
       :fields="fields"
       :items="billdata"
-      :billSlip="data.billSlip"
+      :billSlip="data.billSlip" 
     >
-      <!--:billSlip="billSlip"-->
-      <!-- <template #cell(Quentity)></template> -->
       <template #cell(action)="data">
         <feather-icon
           class="cursor-pointer"
@@ -34,7 +32,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="3" class="text-center">10% Discount</td>
+          <td colspan="3" class="text-center">Discount</td>
           <td colspan="2">
             {{ discount }}
           </td>
@@ -66,6 +64,7 @@ import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import { BTable, BButton } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import data from "../assets/data.json";
+import { values } from "postcss-rtl/lib/affected-props";
 
 export default {
   components: {
@@ -95,38 +94,64 @@ export default {
       data: data,
     };
   },
-
+  // mounted() {
+   
+  // },
   computed: {
+    // function for calculate total
     totalPrice() {
       this.totalP = this.billdata.reduce((acc, item) => acc + item.Total, 0);
       return this.totalP;
     },
+    // function for discount
     discount() {
-      this.discount_amt = (10 / 100) * this.totalP;
-      return this.discount_amt;
+      if (this.totalP <= 500) {
+        this.discount_amt = (10 / 100) * this.totalP;
+        console.log("discount_10_amt", this.discount_amt);
+        return this.discount_amt;
+      } else if (this.totalP >= 500 && this.totalP <= 1000) {
+        
+        this.discount_amt = (15 / 100) * this.totalP;
+        console.log("discount_15_amt", this.discount_amt);
+        return this.discount_amt;
+      } else if (this.totalP >= 1000 && this.totalP <= 1500) {
+        this.discount_amt = (20 / 100) * this.totalP;
+        console.log("discount_20_amt", this.discount_amt);
+        return this.discount_amt;
+      } else if (this.totalP >= 1500 && this.totalP <= 20000000) {
+        this.discount_amt = (25 / 100) * this.totalP;
+        console.log("discount_25_amt", this.discount_amt);
+        return this.discount_amt;
+      }
     },
+    // function for total pay values
     payment() {
       this.totalPay = this.totalP - this.discount_amt;
       return this.totalPay;
     },
   },
+  // set watcher for inc /dec change value then change total
   watch: {
     Quentity() {
       let total = id.Price * id.Quentity;
       this.Total = total;
     },
   },
+
   methods: {
+    // methid for inc value
     increment(id) {
       console.log("Array id", id.Quentity);
-      let Qun = (id.Quentity += 1);
+      let Qun = id.Quentity++;
       console.log("Qun", Qun);
       id.Total = id.Price * Qun;
     },
+    //method for dec value
     decrement(id) {
-      console.log("Array id", id);
-      if (id.Quentity <= 0) {
-        this.billdata.splice(id, 1)
+      if (id.Quentity <= 1) {
+        console.log(" 0 Array id", id);
+        // this.billdata.splice(id, 1);
+        this.billdata.splice(this.billdata.indexOf(id),1);
       } else {
         console.log("Array id", id);
         let Qun = (id.Quentity -= 1);
@@ -134,6 +159,7 @@ export default {
         id.Total -= id.Price;
       }
     },
+    //submit button
     submitBill() {
       this.b_data = this.billdata;
       this.finalBill = [

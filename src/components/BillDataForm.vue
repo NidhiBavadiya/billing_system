@@ -13,6 +13,7 @@
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="Name"
               :options="data.items"
+              placeholder="Select Product"
             />
           </b-form-group>
         </b-col>
@@ -47,7 +48,7 @@
               <b-form-input
                 class="p-0 text-center"
                 id="v-quentity"
-                v-model="Quentity"
+                v-model="Name.Quentity"
               ></b-form-input>
 
               <b-input-group-append>
@@ -135,24 +136,33 @@ export default {
       Name: "",
       Price: "",
       Total: "",
-      Quentity:null,
+      Quentity: "",
 
       data: data,
     };
   },
 
+ computed:{
+ 
+ },
   watch: {
-    Quentity() {
-      if (this.Name) {       
+    Price(val){
+      if(val){
+      this.Price = val.Name.Price
       }
+      this.Total = this.Price
+
+    },
+    Quentity(val) {
+    if(val){
+      this.Quentity = val.Quentity
+    }
       let total = this.Name.Price * this.Name.Quentity;
       this.Total = total;
-      
     },
-    Name() {
-      this.Quentity()
-    },
+    
   },
+
   methods: {
     increment() {
       this.Name.Quentity++;
@@ -162,7 +172,6 @@ export default {
     decrement() {
       if (this.Name.Quentity <= 0) {
         this.Name.Quentity = 0;
-        // this.data.item.splice(this.data.items); 
       } else {
         this.Name.Quentity -= 1;
       }
@@ -175,7 +184,7 @@ export default {
         Name: this.Name.Name,
         Price: this.Name.Price,
         Total: this.Total,
-        Quentity: this.Quentity,
+        Quentity: this.Name.Quentity,
         id: this.Name.id,
       };
       this.$emit("adddata", billValue);

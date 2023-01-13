@@ -104,7 +104,6 @@ export default {
     discount() {
       this.discount_amt = (10 / 100) * this.totalP;
       return this.discount_amt;
-
     },
     payment() {
       this.totalPay = this.totalP - this.discount_amt;
@@ -127,7 +126,7 @@ export default {
     decrement(id) {
       console.log("Array id", id);
       if (id.Quentity <= 0) {
-        id.Quentity = 0;
+        this.billdata.splice(id, 1)
       } else {
         console.log("Array id", id);
         let Qun = (id.Quentity -= 1);
@@ -137,10 +136,9 @@ export default {
     },
     submitBill() {
       this.b_data = this.billdata;
-
       this.finalBill = [
         {
-          products: this.b_data,
+          product: this.b_data,
           price: this.b_data,
           Total: this.totalP,
           Discount: this.discount_amt,

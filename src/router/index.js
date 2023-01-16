@@ -12,27 +12,27 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
+      name: 'billdata',
+      component: () => import('@/views/BillData.vue'),
       meta: {
-        pageTitle: 'Home',
+        pageTitle: 'BillData',
         breadcrumb: [
           {
-            text: 'Home',
+            text: 'BillData',
             active: true,
           },
         ],
       },
     },
     {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
+      path: '/bill',
+      name: 'bill',
+      component: () => import('@/views/Bill.vue'),
       meta: {
-        pageTitle: 'Second Page',
+        pageTitle: 'bill',
         breadcrumb: [
           {
-            text: 'Second Page',
+            text: 'bill',
             active: true,
           },
         ],

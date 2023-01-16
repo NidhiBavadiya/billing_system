@@ -1,11 +1,10 @@
 <template>
   <div>
     <b-card class="w-50 p-4">
-      <!-- product & price -->
+      <!-- product -->
       <b-row class="justify-content-between">
         <b-col cols="12" md="4" class="mt-2 pl-1 p-0">
           <h4>Product</h4>
-
           <ul
             v-for="i in this.productBill[0].product"
             :key="i.Name"
@@ -14,6 +13,7 @@
             <li class="pt-1">{{ i.Name }}</li>
           </ul>
         </b-col>
+        <!-- price -->
         <b-col cols="12" md="4" class="mt-2 justify-content-right">
           <h4 style="text-align: right">Total Price</h4>
           <ul
@@ -78,7 +78,7 @@ export default {
   },
   //data receive from product list component
   mounted() {
-    this.productBill = this.data.billSlip;
+    this.productBill = this.data.b_Slip;
     console.log("...thisproductBill", this.productBill);
   },
 };

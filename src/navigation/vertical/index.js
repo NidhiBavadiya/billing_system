@@ -1,12 +1,12 @@
 export default [
   {
-    title: 'Home',
-    route: 'home',
+    title: 'BillData',
+    route: 'billdata',
     icon: 'HomeIcon',
   },
-  {
-    title: 'Second Page',
-    route: 'second-page',
-    icon: 'FileIcon',
-  },
+  // {
+  //   title: 'Bill',
+  //   route: 'bill',
+  //   icon: 'FileIcon',
+  // },
 ]

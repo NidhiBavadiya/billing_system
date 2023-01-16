@@ -30,45 +30,44 @@ export default {
       billdata: [],
       fields: [
         {
-          value:"Name",
-          key:"Name"
+          value: "Name",
+          key: "Name",
         },
         {
-          value:"Price",
-          key:"Price"
+          value: "Price",
+          key: "Price",
         },
         {
-          value:"Quentity",
-          key:"Quentity"
+          value: "Quentity",
+          key: "Quentity",
         },
         {
-          value:"Total",
-          key:"Total"
+          value: "Total",
+          key: "Total",
         },
         {
-          value:"Action",
-          key:"action"
+          value: "Action",
+          key: "action",
         },
       ],
     };
-  },
-  mounted(){
-    data.items.forEach(item => {
-        if(item.id === billValue.id){
-          console.log("Item already exist")
-        }
-        else{
-          this.$emit("adddata", billValue); 
-        }
-        console.log("item...",item.id);
-        console.log("....",billValue.id);
-      });
-  },
+  }, 
   methods: {
+    //function for receive data from  billdataform
     bill(value) {
-      console.log(value);
-      this.billdata.push(value)
-      console.log("billData", this.billdata);
+    let val = false
+    console.log(val);
+      this.billdata.forEach(element => {
+        console.log("hi",element.id);
+        if(element.Name === value.Name){
+          alert("same value")
+          val = true
+        }
+      });
+      if(val===false){
+        this.billdata.push(value);
+      }
+     
     },
   },
 };

@@ -1,12 +1,14 @@
 <template>
   <b-card-code no-body title="Basic Table">
+    <!-- table for bill data display -->
     <b-table
       responsive="sm"
       :fields="fields"
       :items="billdata"
-      :billSlip="data.billSlip" 
-    >
+      :b_Slip="data.b_Slip"
+      >
       <template #cell(action)="data">
+        <!-- Action button -->
         <feather-icon
           class="cursor-pointer"
           icon="PlusSquareIcon"
@@ -25,6 +27,7 @@
         </feather-icon>
       </template>
       <template #custom-foot>
+        <!-- row for display total , discount , payprice -->
         <tr>
           <td colspan="3" class="text-center">Total</td>
           <td colspan="2">
@@ -52,6 +55,7 @@
             >
               Submit
             </b-button>
+        
           </td>
         </tr>
       </template>
@@ -64,7 +68,6 @@ import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import { BTable, BButton } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import data from "../assets/data.json";
-import { values } from "postcss-rtl/lib/affected-props";
 
 export default {
   components: {
@@ -79,9 +82,7 @@ export default {
     billdata: Array,
     fields: Array,
   },
-  mounted() {
-    console.log("Array", this.billdata);
-  },
+
   data() {
     return {
       Name: "",
@@ -94,23 +95,19 @@ export default {
       data: data,
     };
   },
-  // mounted() {
-   
-  // },
   computed: {
     // function for calculate total
     totalPrice() {
       this.totalP = this.billdata.reduce((acc, item) => acc + item.Total, 0);
       return this.totalP;
     },
-    // function for discount
+    // function for discount with condition
     discount() {
       if (this.totalP <= 500) {
         this.discount_amt = (10 / 100) * this.totalP;
         console.log("discount_10_amt", this.discount_amt);
         return this.discount_amt;
       } else if (this.totalP >= 500 && this.totalP <= 1000) {
-        
         this.discount_amt = (15 / 100) * this.totalP;
         console.log("discount_15_amt", this.discount_amt);
         return this.discount_amt;
@@ -118,7 +115,7 @@ export default {
         this.discount_amt = (20 / 100) * this.totalP;
         console.log("discount_20_amt", this.discount_amt);
         return this.discount_amt;
-      } else if (this.totalP >= 1500 && this.totalP <= 20000000) {
+      } else if (this.totalP >= 1500 && this.totalP <= 10000) {
         this.discount_amt = (25 / 100) * this.totalP;
         console.log("discount_25_amt", this.discount_amt);
         return this.discount_amt;
@@ -141,22 +138,18 @@ export default {
   methods: {
     // methid for inc value
     increment(id) {
-      console.log("Array id", id.Quentity);
-      let Qun = id.Quentity++;
-      console.log("Qun", Qun);
+      let Qun = (id.Quentity ++);
       id.Total = id.Price * Qun;
     },
+
     //method for dec value
     decrement(id) {
       if (id.Quentity <= 1) {
-        console.log(" 0 Array id", id);
-        // this.billdata.splice(id, 1);
-        this.billdata.splice(this.billdata.indexOf(id),1);
+        this.billdata.splice(this.billdata.indexOf(id), 1);
       } else {
-        console.log("Array id", id);
         let Qun = (id.Quentity -= 1);
-        console.log(Qun);
         id.Total -= id.Price;
+        console.log("Qun", Qun);
       }
     },
     //submit button
@@ -172,9 +165,16 @@ export default {
           id: this.id,
         },
       ];
-      console.log("finalBill", this.finalBill);
-      this.data.billSlip = this.finalBill;
-      this.$router.push("/second-page");
+      this.data.b_Slip = this.finalBill;
+      this.$router.push("/bill");
+      this.finalBill = {
+        product: null,
+        price: null,
+        Total: null,
+        Discount: null,
+        pay: null,
+        id: null,
+      };
     },
   },
 };

@@ -1,6 +1,5 @@
-
- 
 <template>
+  <!-- card for add Single Product Detail form -->
   <b-card>
     <h2 class="mb-3">Single Product Detail</h2>
     <b-form @submit.prevent ref="clearform">
@@ -21,7 +20,6 @@
         </b-col>
       </b-row>
       <b-row>
-        {{ data.items.id }}
         <!-- Price-->
         <b-col cols="12" md="6">
           <b-form-group label="Price" label-for="v-Price">
@@ -99,6 +97,7 @@
       </b-row>
     </b-form>
   </b-card>
+  <!--  -->
 </template>
   
 <script>
@@ -117,8 +116,6 @@ import {
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import data from "../assets/data.json";
-import { forEach } from 'postcss-rtl/lib/affected-props';
-// import { resolveNavDataRouteName } from "@/@core/layouts/utils";
 export default {
   components: {
     BRow,
@@ -147,16 +144,18 @@ export default {
       data: data,
     };
   },
-  // change & display total value 
+
+  // change & display total value
   computed: {
     changeTotal() {
       console.log("price", this.Name.Price);
       console.log("Quentity", this.Name.Quentity);
       this.Total = this.Name.Price * this.Name.Quentity;
-      console.log("total...", this.Total);
+      console.log("Total", this.Total);
     },
-  },
-// watcher for watch Qentity value
+   },
+
+  // watcher for watch Qentity value
   watch: {
     Quentity() {
       let total = this.Name.Price * this.Name.Quentity;
@@ -171,6 +170,7 @@ export default {
       let Qun = this.Name.Quentity;
       this.Quentity = Qun;
     },
+
     //dec Quentity
     decrement() {
       if (this.Name.Quentity <= 0) {
@@ -181,7 +181,8 @@ export default {
       let Qun = this.Name.Quentity;
       this.Quentity = Qun;
     },
-//Add data button
+
+    //Add data button
     AddData() {
       let billValue = {
         Name: this.Name.Name,
@@ -190,8 +191,9 @@ export default {
         Quentity: this.Name.Quentity,
         id: this.Name.id,
       };
-      this.$emit("adddata", billValue);
-      this.$refs.clearform.reset();
+      if(this.Name.Quentity > 0){
+        this.$emit("adddata", billValue);
+      }
       billValue = {
         Name: null,
         Price: null,
@@ -199,11 +201,14 @@ export default {
         Quentity: null,
         id: null,
       };
-      console.log("shdbjshdf",billValue);
+      this.Name = null
+      this.$refs.clearform.reset();
+    
     },
   },
 };
 </script>
+
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
 
